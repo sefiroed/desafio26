@@ -12,6 +12,8 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo';
 import config from '../src/config';
 import "reflect-metadata";
+import user from './routes/user';
+const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 
 
 /** INICIALIZACION API con EXPRESS y conectamos la base de datos **/
@@ -40,15 +42,14 @@ app.use(express.urlencoded({ extended: true }));
 
 
 const StoreOptions = {
-  // store: MongoStore.create({
-  //   mongoUrl: config.MONGO_ATLAS_URL
-  // }),
+  store: MongoStore.create({
+    mongoUrl: config.MONGO_ATLAS_URL
+  }),
   secret: 'shhhhhhhhhhhhhhhhhhhhh',
   resave: false,
   saveUninitialized: false,
-  rolling: true,
   cookie: {
-      maxAge: 60000
+      maxAge: 40000
   }
 };
 
@@ -77,5 +78,6 @@ app.engine(
 /*Invocamos a nuestra carpeta ruta para realizar las llamadas*/
 app.use('/api/productos', routerProductos);
 app.use('/', vistaRouter);
+
 
 
